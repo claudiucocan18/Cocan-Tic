@@ -24,15 +24,30 @@ const baseURL = 'http://127.0.0.1:5001/cocan-tic/us-central1/app/';
         .post("http://127.0.0.1:5001/cocan-tic/us-central1/app/login", {
           emailAddress: loginEmail,
           password: loginPassword
-        })
-        .then(res => {
-          commit("authUser", {
-            token: res.data.idToken,
-            userId: res.data.localId
-          });
+        }).then(res => {
+          if (res.data.token) {
+              localStorage.setItem('token', JSON.stringify(res.data.token));
+           
+          }
 
+          console.log(localStorage.getItem('token'))});
+        // .then((res) => {
+        //   let s = (...res)=> {s.token};
+           // token: res.data.token
+      //    });
+
+          // const now = new Date();
+          // const expirationDate = new Date(
+          //   now.getTime() + res.data.expiresIn * 1000
+          // );
+
+          //console.log("spatii"+token);
+          // localStorage.setItem("token", res.data.idToken);
+          // localStorage.setItem("userId", res.data.localId);
+          // localStorage.setItem("expirationDate", expirationDate);
+          
 }
-        )};
+
 
 
  function login2(loginEmail, loginPassword) {

@@ -181,6 +181,8 @@ app.post('/login', (req, res) => {
 
         console.log('Tokenul tau este: ', token);
 
+        //localStorage.setItem("token", token);
+
         res.send({ token });
       } else {
         console.log('parola este gresita');
