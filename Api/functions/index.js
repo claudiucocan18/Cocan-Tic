@@ -16,7 +16,8 @@ admin.initializeApp({
 
 var users = [{
   emailAddress:'secretariat@csie.ro',
-  password:'parola'
+  password:'parola',
+  token:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoic2VjcmV0YXJpYXRAY3NpZS5ybyIsImlhdCI6MTY3NTY3MTUwMCwiZXhwIjoxNjc1Njc1MTAwfQ.iJ6do0oRULZxNlkjR0aPV40WMc1U4NDRJzUOOUoW9tg',
 }];
 
 const express = require("express");
@@ -73,7 +74,7 @@ app.get("/api/get/:id", (req, res) => {
 app.get("/api/getAll", (req, res) => {
   (async () => {
     try {
-      const query = db.collection("userDetails");
+      const query = db.collection("bursaMerit");
       let response = [];
 
       await query.get().then((data) => {
@@ -81,9 +82,8 @@ app.get("/api/getAll", (req, res) => {
 
         docs.map((doc) => {
           const selectedItem = {
-            name: doc.data().name,
-            mobile: doc.data().mobile,
-            address: doc.data().address,
+            nume: doc.data().nume,
+            nota: doc.data().nota,
           };
           response.push(selectedItem);
         });
@@ -145,25 +145,20 @@ app.post('/login', (req, res) => {
   
   const user = users.find((user) => user.emailAddress === loginData.emailAddress);
 
-  console.log('USRS2  '+users);
-  console.log('USRS3  '+user.password);
-  console.log('USRS4  '+user.emailAddress);
-  console.log('USRS5  '+loginData.password);
-  console.log('USRS5  '+loginData.emailAddress);
+  // console.log('USRS2  '+users);
+  // console.log('USRS3  '+user.password);
+  // console.log('USRS4  '+user.emailAddress);
+  // console.log('USRS5pass  '+loginData.password);
+  // console.log('USRS5email  '+loginData.emailAddress);
 
-  if (user === undefined) {
+  if (user == undefined) {
     response.user = false;
     console.log('utilizatorul nu exista');
-
+   // throw new Error(400,"Email este gresit");
    
   } else {
 
-    // bcrypt.genSalt(function(err, salt) {
-    //   bcrypt.hash(user.password, salt, function(err, hash) {
-    //   // returns hash
-    //   user.password=hash;
-    //   });
-    // });
+   
 
     // bcrypt.compare(loginData.password, user.password, function (err, result) {
     //   if (result) {
@@ -180,18 +175,99 @@ app.post('/login', (req, res) => {
         );
 
         console.log('Tokenul tau este: ', token);
-
+    
         //localStorage.setItem("token", token);
 
         res.send({ token });
       } else {
         console.log('parola este gresita');
+       // throw new Error(400,"Parola este gresita");
+        
       }
     }
-  
+
 });
   // res.send(response)
 
 
+  // let token = req.headers['authorization'];
 
-exports.app = functions.https.onRequest(app);
+  // if (token) {
+  //   jwt.verify(token, serverSecret, (err, decode));
+
+  //   if (err) {
+  //     if (err.expiredAt) {
+  //       console.log('Tokenul tau a expirat!');
+  //       res.status(403);
+  //       res.send('expiredToken');
+  //     } else {
+  //       console.log('Tokenul tau nu e bun');
+  //       res.status(403);
+  //       res.send('brokenToken');
+  //     }
+  //   } else {
+  //     console.req.email = decoded;
+  //     next();
+  //   }
+
+  //   next();
+  // } else {
+  //   res.status(401);
+  // }
+
+  // next();
+//}
+
+// app.post('/verificare', (req, res) => {
+//   let tok = req.body;
+//   console.log("sd"+tok);
+//   //let response = {};
+//  // response.success = false;
+
+
+//   let verificare = verificareToken(tok)
+
+//       if(verificare){
+//         console.log('trecut de if');
+       
+
+//         res.send(verificare);
+//       } else {
+//         console.log('parola este gresita');
+//       }
+//     }
+  
+// );
+
+//node js exports https://stackify.com/node-js-module-exports/
+
+ function verificareToken(token) {
+  // let token = localStorage.getItem('token');
+   console.log('Token din verif'+ token);
+ 
+   if (token) {
+     jwt.verify(token, 'secret', (err, decode));
+ 
+     if (err) {
+       if (err.expiredAt) {
+         console.log('Tokenul tau a expirat!');
+         return false;
+       } else {
+         console.log('Tokenul tau nu e bun');
+         return false;
+       }
+     } else {
+       console.req.email = decoded;
+       return true;
+     }
+ 
+   } else {
+     return false;
+   }
+ 
+ }
+
+
+module.exports.app = functions.https.onRequest(app);
+//module.exports.verificareToken = verificareToken();
+// exports.verificareToken = verificareToken();

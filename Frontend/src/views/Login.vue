@@ -1,13 +1,15 @@
 <template>
   <form @submit.prevent="submitForm" class="login-form">
     <h2 class="title">Login</h2>
+
     <div class="div-form">
       <label for="email">E-Mail</label>
-      <input type="email" />
+      <input type="email" v-model="campEmail" />
     </div>
+
     <div class="div-form">
       <label for="password">Password</label>
-      <input type="password" />
+      <input type="password" v-model="campParola" />
     </div>
 
     <div class="btn-actions">
@@ -29,24 +31,27 @@
 //var login = require('C:/Users/Claudiu/Desktop/Cocan Tic/Api/client');
 
 import { def } from '@vue/shared';
-import {login}  from 'C:/Users/Claudiu/Desktop/Cocan Tic/Api/client';
-
+import {login}  from '../../../Api/client';
+//import {verifyToken} from '../../../Api/client'
+ 
 export default{
 data(){
   return{
-    loginEmail:"",
-    loginPassword:"",
+    campEmail:"",
+    campParola:"",
   };
 },
 // created(){
 //   this.loadAttr();
 // },
 methods:{
-  async loadAttr(){
-    this.loginEmail="secretariat@csie.ro";
-    this.loginPassword="parola";
+   loadAttr(){
+    //this.loginEmail="secretariat@csie.ro";
+    //this.loginPassword="parola";
     //const obj = login();
-    await login(this.loginEmail, this.loginPassword);
+    this.$router.push("/burse");
+     login(this.campEmail, this.campParola);
+    // verifyToken();
   },
 },
 

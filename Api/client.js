@@ -11,6 +11,8 @@ var globalRequestParameters = {
   };
 
   import axios from "axios";
+  //import { RouterLink, RouterView } from "vue-router";
+ // const jwt = require('jsonwebtoken');
   
 const baseURL = 'http://127.0.0.1:5001/cocan-tic/us-central1/app/';
 
@@ -27,10 +29,20 @@ const baseURL = 'http://127.0.0.1:5001/cocan-tic/us-central1/app/';
         }).then(res => {
           if (res.data.token) {
               localStorage.setItem('token', JSON.stringify(res.data.token));
-           
+              console.log("Mister "+ res.data)
+              
           }
+          else //alert('Hello, World!');
 
-          console.log(localStorage.getItem('token'))});
+          console.log(localStorage.getItem('token'));
+          this.$router.push("/burse"); 
+        }).catch(error => {
+            // Handle error
+            console.error(error);
+            
+          });
+
+          
         // .then((res) => {
         //   let s = (...res)=> {s.token};
            // token: res.data.token
@@ -47,6 +59,24 @@ const baseURL = 'http://127.0.0.1:5001/cocan-tic/us-central1/app/';
           // localStorage.setItem("expirationDate", expirationDate);
           
 }
+
+
+// function verificareToken(token) {
+
+//   console.log("este in verificare token")
+
+//   axios
+//   .post("http://127.0.0.1:5001/cocan-tic/us-central1/app/verificare", {
+//     token: token,
+//   }).then(res => {
+//     if (res.verificare) {
+//         return JSON.stringify(res.verificare);
+     
+//     }
+
+// })
+// }
+
 
 
 
@@ -74,8 +104,10 @@ const baseURL = 'http://127.0.0.1:5001/cocan-tic/us-central1/app/';
   }
 //};
 
+
+
 export{
-  login
+  login,
 }
 //export default ob;
 // module.exports = {
