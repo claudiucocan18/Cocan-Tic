@@ -9,6 +9,11 @@ const serverSecret = 'secret';
 
 var serviceAccount = require("./serviceAccountKey.json");
 
+
+
+
+
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
@@ -23,6 +28,10 @@ var users = [{
 const express = require("express");
 const cors = require("cors");
 
+const { getFirestore } = require('firebase-admin/firestore');
+
+const dbFirebase = getFirestore();
+
 //Main App
 const app = express();
 app.use(cors({ origin: true }));
@@ -34,6 +43,87 @@ const db = admin.firestore();
 app.get("/", (req, res) => {
   return res.status(200).send("Hi!");
 });
+
+
+
+
+//tutorial yt
+// app.get("/api/getAll", (req, res) => {
+
+// const colRef = collection(db,'bursaMerit');
+
+// getDocs(colRef)
+// .then((snapshot) => {
+//   let books = [];
+//   snapshot.docs.forEach((doc) =>{
+//   books.push({...doc.data(),nume: doc.nume, nota: doc.nota})
+// })
+// console.log(books);
+// })
+// .catch(err=> {
+//   console.log(err.message);
+// })
+// });
+
+//LP
+app.get("/getAll", (req, res) => {
+  // res.status(200);
+  // res.send(db);
+  const tasks = [];
+  dbFirebase
+    .collection('bursaMerit')
+    .get()
+    .then((snapshot) => {
+      snapshot.forEach((doc) => {
+        tasks.push({ nota: doc.nota, nume: doc.nume, ...doc.data() });
+      });
+      res.status(200);
+      res.send(tasks);
+    })
+    .catch((err) => {
+      console.log('Error getting documents', err);
+    });
+});
+
+
+//   (async () => {
+//     try {
+//       const query = db.collection("bursaMerit");
+//       let response = [];
+
+//       await query.get().then((data) => {
+//         let docs = data.docs;
+
+//         docs.map((doc) => {
+//           const selectedItem = {
+//             nume: doc.data().nume,
+//             nota: doc.data().nota,
+//           };
+//           response.push(selectedItem);
+//         });
+//         return response;
+//       });
+
+//       return res.status(200).send({ status: "Success", data: response });
+    
+//     } catch (error) {
+//       console.log(error);
+//       return res.status(500).send({ status: "Failed", msg: error });
+//     }
+//   })();
+// });
+
+
+
+
+
+
+
+
+
+
+
+
 
 //Create -> post()
 app.post("/api/create", (req, res) => {
@@ -70,33 +160,37 @@ app.get("/api/get/:id", (req, res) => {
   })();
 });
 
-//Fetch - All the details from firestore
-app.get("/api/getAll", (req, res) => {
-  (async () => {
-    try {
-      const query = db.collection("bursaMerit");
-      let response = [];
+// //Fetch - All the details from firestore
+// app.get("/api/getAll", (req, res) => {
+//   (async () => {
+//     try {
+//       const query = db.collection("bursaMerit");
+//       let response = [];
 
-      await query.get().then((data) => {
-        let docs = data.docs;
+//       await query.get().then((data) => {
+//         let docs = data.docs;
 
-        docs.map((doc) => {
-          const selectedItem = {
-            nume: doc.data().nume,
-            nota: doc.data().nota,
-          };
-          response.push(selectedItem);
-        });
-        return response;
-      });
+//         docs.map((doc) => {
+//           const selectedItem = {
+//             nume: doc.data().nume,
+//             nota: doc.data().nota,
+//           };
+//           response.push(selectedItem);
+//         });
+//         return response;
+//       });
 
-      return res.status(200).send({ status: "Success", data: response });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).send({ status: "Failed", msg: error });
-    }
-  })();
-});
+//       return res.status(200).send({ status: "Success", data: response });
+    
+//     } catch (error) {
+//       console.log(error);
+//       return res.status(500).send({ status: "Failed", msg: error });
+//     }
+//   })();
+// });
+
+
+
 
 //Update -> put()
 app.put("/api/update/:id", (req, res) => {
@@ -154,6 +248,8 @@ app.post('/login', (req, res) => {
   if (user == undefined) {
     response.user = false;
     console.log('utilizatorul nu exista');
+    // res.status=400;
+    // res.send();
    // throw new Error(400,"Email este gresit");
    
   } else {
@@ -177,10 +273,12 @@ app.post('/login', (req, res) => {
         console.log('Tokenul tau este: ', token);
     
         //localStorage.setItem("token", token);
-
+        // res.status=200;
         res.send({ token });
       } else {
         console.log('parola este gresita');
+        // res.status=400;
+        // res.send();
        // throw new Error(400,"Parola este gresita");
         
       }

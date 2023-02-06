@@ -15,7 +15,7 @@
     <div class="btn-actions">
       
 
-      <button class="btn" @click="loadAttr">Login</button>
+      <button class="btn" @click="loadAttr" >Login</button>
       
       
     </div>
@@ -32,11 +32,13 @@
 
 import { def } from '@vue/shared';
 import {login}  from '../../../Api/client';
+//import {checkRedirect}  from '../../../Api/client';
 //import {verifyToken} from '../../../Api/client'
  
 export default{
 data(){
   return{
+    tok:"",
     campEmail:"",
     campParola:"",
   };
@@ -44,15 +46,51 @@ data(){
 // created(){
 //   this.loadAttr();
 // },
+
 methods:{
    loadAttr(){
     //this.loginEmail="secretariat@csie.ro";
     //this.loginPassword="parola";
     //const obj = login();
-    this.$router.push("/burse");
+    
+   // this.$router.push("/burse");
+
+   
      login(this.campEmail, this.campParola);
+
+     if (localStorage.getItem("token")) {
+              this.tok = localStorage.getItem("token").toString();
+            } else {
+              this.tok = "";
+            }
+
+            console.log("e rau rau"+this.tok);
+      
+      if (this.tok != "") {
+        this.$router.push("/burse");
+      } else {
+        alert("Autentificare nereusita!");
+        this.$router.push("/login");
+      }
+
+    // checkRedirect(this.tok);
+     
     // verifyToken();
   },
+  
+
+  // checkRedirect(){
+  //   if (localStorage.getItem("token")) {
+  //       this.tok = localStorage.getItem("token").toString();
+  //     } else {
+  //       this.tok = "";
+  //     }
+  //     if (this.tok != "") {
+  //       this.$router.push("/burse");
+  //     } else {
+  //       this.$router.push("/login");
+  //     }
+  // },
 },
 
 };

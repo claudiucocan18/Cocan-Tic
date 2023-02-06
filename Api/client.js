@@ -11,6 +11,19 @@ var globalRequestParameters = {
   };
 
   import axios from "axios";
+
+  let requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+  };
+  
   //import { RouterLink, RouterView } from "vue-router";
  // const jwt = require('jsonwebtoken');
   
@@ -29,94 +42,136 @@ const baseURL = 'http://127.0.0.1:5001/cocan-tic/us-central1/app/';
         }).then(res => {
           if (res.data.token) {
               localStorage.setItem('token', JSON.stringify(res.data.token));
-              console.log("Mister "+ res.data)
-              
+              console.log("Mister "+ res.data);
+              console.log("TOKEN after api: "+JSON.stringify(res.data.token).toString());//+JSON.stringify(res.data.token)
+              //this.$router.push("/burse");
           }
+         
           else //alert('Hello, World!');
-
-          console.log(localStorage.getItem('token'));
-          this.$router.push("/burse"); 
+           console.log("Eroareeee");
+          // console.log(localStorage.getItem('token'));
+          
         }).catch(error => {
             // Handle error
             console.error(error);
             
           });
 
-          
-        // .then((res) => {
-        //   let s = (...res)=> {s.token};
-           // token: res.data.token
-      //    });
+        }
+        
 
-          // const now = new Date();
-          // const expirationDate = new Date(
-          //   now.getTime() + res.data.expiresIn * 1000
-          // );
 
-          //console.log("spatii"+token);
-          // localStorage.setItem("token", res.data.idToken);
-          // localStorage.setItem("userId", res.data.localId);
-          // localStorage.setItem("expirationDate", expirationDate);
-          
+
+function getAll(){
+
+  console.log("a intrat");
+        fetch("http://127.0.0.1:5001/cocan-tic/us-central1/app/getAll", requestOptions)
+        .then((res) => {
+          if (res.status === 200) {
+            console.log('Mesaj');
+            return res.json();
+          } else {
+            console.log('A aparut o eroare');
+          }
+        })
+        .then((res) => {
+          if (res === undefined) {
+            console.log('Serverul nu a returnat nimic');
+          } else {
+            res.forEach((elem) => {
+              console.log(elem);
+              //addStudToUI(elem);
+            });
+          }
+        });
+
+      }
+
+function addStudToUI(elem) {
+  let task = document.createElement('li');
+
+  let taskContainer = document.createElement('div');
+  let taskName = document.createTextNode(elem.taskName);
+  taskContainer.appendChild(taskName);
+
+  task.appendChild(taskContainer);
+  let taskStatus = document.createElement('div');
+  let taskStatusText = document.createTextNode('Status: ' + elem.status);
+  taskStatus.appendChild(taskStatusText);
+  task.appendChild(taskStatus);
+
+  let deleteTaskButton = document.createElement('button');
+  let deleteTaskButtonText = document.createTextNode('Delete');
+  deleteTaskButton.appendChild(deleteTaskButtonText);
+  deleteTaskButton.id = 'DEL_BTN_' + elem.id;
+  deleteTaskButton.className = 'DEL_BTN';
+  deleteTaskButton.addEventListener('click', deleteToDo);
+  task.appendChild(deleteTaskButton);
+
+  let updateTaskButton = document.createElement('button');
+  let updateTaskButtonText = document.createTextNode('Update');
+  updateTaskButton.appendChild(updateTaskButtonText);
+  updateTaskButton.id = 'UPT_BTN_' + elem.id;
+  task.appendChild(updateTaskButton);
+
+  task.id = elem.id;
+  task.className = 'task';
+
+  document.getElementById('myTasks').appendChild(task);
+  document.getElementById('info').innerText = '';
 }
 
 
-// function verificareToken(token) {
 
-//   console.log("este in verificare token")
+
+
+
+
+
+// function getAll(){
 
 //   axios
-//   .post("http://127.0.0.1:5001/cocan-tic/us-central1/app/verificare", {
-//     token: token,
-//   }).then(res => {
-//     if (res.verificare) {
-//         return JSON.stringify(res.verificare);
-     
+//   .post("http://127.0.0.1:5001/cocan-tic/us-central1/app/getAll")
+//   .then((res) => {
+//     if (res === undefined) {
+//       console.log('Serverul nu a returnat nimic');
+//     } else {
+//       let elems=[];
+//       res.forEach((elem) => {
+//         addTaskToUI(elem);
+//         elems.ad
+//       });
 //     }
+//   });
 
-// })
+//   addTaskToUI(elem){
+//     console.log("dam in ui");
+//   }
+
+//   fetch(base_url, requestOptions)
+//   .then((res) => {
+//     if (res.status === 200) {
+//       console.log('Mesaj');
+//       return res.json();
+//     } else {
+//       console.log('A aparut o eroare');
+//     }
+//   })
+//   .then((res) => {
+//     if (res === undefined) {
+//       console.log('Serverul nu a returnat nimic');
+//     } else {
+//       res.forEach((elem) => {
+//         addTaskToUI(elem);
+//       });
+//     }
+//   });
+
 // }
-
-
-
-
- function login2(loginEmail, loginPassword) {
-    console.log("Login func")
-  let parameters = { ...globalRequestParameters }; // shallow object clone
-    parameters.method = 'POST';
-    parameters.body = JSON.stringify({
-      loginEmail: loginEmail,
-      loginPassword: loginPassword,
-    });
-    console.log("Login func2")
-    fetch(baseURL + 'login', parameters)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (data.success) {
-          // if authentication was successful, store the token in the browser's local storage
-          localStorage.setItem('token', data.token);
-        } else {
-          console.log('Authentication failed');
-        }
-      });
-      console.log("Login func3")
-  }
-//};
-
 
 
 export{
   login,
+  getAll,
+  //checkRedirect,
 }
-//export default ob;
-// module.exports = {
-//   login
-// }
-
-
-  // export default{
-  //   methods:{
-  //     login
-  //   }
-  // }

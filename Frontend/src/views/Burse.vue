@@ -40,7 +40,7 @@
 import AddStudent from "../views/AddStudent.vue";
 //const jwt = require('jsonwebtoken');
 //import {verificareToken}  from '../../../Api/functions/index';
-//import {sayHello} from '../../../Api/functions/index.js'
+import {getAll} from '../../../Api/client'
 //const myFunction = require('./module');
 // export default{
 // data(){
@@ -54,25 +54,18 @@ import AddStudent from "../views/AddStudent.vue";
 export default {
   data() {
     return {
-      tok: '',
-      visibil: true
+      tok: ''
     };
   },
   mounted() {
-  //   if(this.tok = localStorage.getItem('token')){
-  //     this.tok = localStorage.getItem('token').toString();
-      
-  //     this.checkIfLogged(this.tok);
-  // }
-  // else{
-  //   this.tok =  "";
-  // }
-  // console.log("merge"+this.tok);
+
   this.checkIfLogged();
+
   },
   created(){
   // this.checkIfLogged(this.tok);
   console.log("created");
+  getAll();
   },
   methods: {
     checkIfLogged() {
@@ -97,11 +90,6 @@ export default {
         }
     }
   };
-
-
-
-
-
 
 
 // methods:{
