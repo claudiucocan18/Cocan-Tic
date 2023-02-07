@@ -1,35 +1,65 @@
 <template>
   <div>
     <h1 class="title">Burse de merit</h1>
-    <a href="./addstudent" class="bttn" v-if= "this.tok != ''" >Adauga student</a>
+    <a href="./addstudent" class="bttn" v-if="this.tok != ''">Adauga student</a>
     <div class="container">
       <div class="row">
         <div class="col-md-6 offset-md-3">
           <ul class="list-group">
-            <li
-              class="list-group-item d-flex justify-content-between align-items-center"
-            >
+            <li class="list-group-item d-flex justify-content-between align-items-center">
               NUME STUDENT
               <span> NOTA</span>
               <span></span>
               <span></span>
             </li>
-            <li
-              class="list-group-item d-flex justify-content-between align-items-center"
-            >
+            <li class="list-group-item d-flex justify-content-between align-items-center">
               Cocan Claudiu
               <span> 10</span>
               <span class="badge badge-primary badge-pill">
-                <router-link
-                  :to="{ path: `/editStudent/2583` }"
-                  class="btn btn-primary ml-2"
-                >
+                <router-link :to="{ path: `/editStudent/2583` }" class="btn btn-primary ml-2">
                   Edit
                 </router-link>
                 <a href="#" class="btn btn-danger">Delete</a>
               </span>
             </li>
           </ul>
+
+          <!-- ------------- -->
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center" v-for="cv in vector">
+              {{ cv.nume }}
+              <span> 10</span>
+              <span class="badge badge-primary badge-pill">
+                <router-link :to="{ path: `/editStudent/2583` }" class="btn btn-primary ml-2">
+                  Edit
+                </router-link>
+                <a href="#" class="btn btn-danger">Delete</a>
+              </span>
+            </li>
+          </ul>
+
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center" v-for="brs in burse">
+              {{}}
+              <span> 10</span>
+              <span class="badge badge-primary badge-pill">
+                <router-link :to="{ path: `/editStudent/2583` }" class="btn btn-primary ml-2">
+                  Edit
+                </router-link>
+                <a href="#" class="btn btn-danger">Delete</a>
+              </span>
+            </li>
+          </ul>
+
+          <!-- <ul v-for="cv in fbBurseMerit" :key="cv.id">
+            <li>
+              {{ cv.done }}
+
+            </li>
+          </ul> -->
+
+
+
         </div>
       </div>
     </div>
@@ -38,70 +68,75 @@
 
 <script>
 import AddStudent from "../views/AddStudent.vue";
-//const jwt = require('jsonwebtoken');
-//import {verificareToken}  from '../../../Api/functions/index';
-import {getAll} from '../../../Api/client'
-//const myFunction = require('./module');
-// export default{
-// data(){
-//   return{
-//   };
-// },
-// created(){
-//   this.verifyToken();
-// },
-//import {verificareToken}  from '../../../Api/client';
+import { ref, onMounted } from 'vue';
+
+import { getAll } from '../../../Api/client'
+import axios from "axios";
+import { collection, getDocs } from "firebase/firestore";
+import db from '@/firebase';
+
+
+const burseMerit = ref([]);
+
+
 export default {
   data() {
     return {
-      tok: ''
+      tok: '',
+      vector: [],
+      v: [],
+      nr: [1, 2, 3]
     };
   },
   mounted() {
 
-  this.checkIfLogged();
-
+    this.checkIfLogged();
   },
-  created(){
-  // this.checkIfLogged(this.tok);
-  console.log("created");
-  getAll();
+  created() {
+    this.loadVector();
+    console.log("vectorullllllllll");
+    console.log(this.vector);
+
   },
   methods: {
     checkIfLogged() {
 
-      if(localStorage.getItem('token')){
-         this.tok = localStorage.getItem('token').toString();
+      if (localStorage.getItem('token')) {
+        this.tok = localStorage.getItem('token').toString();
       }
-      else {this.tok = "";}
-      
-      console.log('token='+ this.tok);
-      console.log("Din checkif"+this.tok);
+      else { this.tok = ""; }
 
-      if(this.tok=="")
-        { console.log('true');
+      console.log('token=' + this.tok);
+      console.log("Din checkif" + this.tok);
+
+      if (this.tok == "") {
+        console.log('true');
         return true;
       }
-      else { 
+      else {
         console.log('false');
         return false;
       }
-     
-        }
-    }
-  };
+
+    },
+
+    async loadVector() {
+       this.vector = await this.fetchData();
+    },
+
+    async fetchData() {
+      const dataArray = await axios.get('http://127.0.0.1:5001/cocan-tic/us-central1/app/getAll')
+        
+      console.log(dataArray.data);
+      return dataArray.data;
+      
+
+    },
+
+  },
+}
 
 
-// methods:{
-
-//   loadAttr2(){
-    
-//     verifyToken();
-//   },
-
-// },
-
-//};
 
 </script>
 
@@ -113,6 +148,7 @@ export default {
   text-transform: uppercase;
   margin-block-start: 3rem;
 }
+
 .bttn {
   align-items: center;
   background-color: #fff;

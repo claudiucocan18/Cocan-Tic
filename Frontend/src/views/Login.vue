@@ -32,8 +32,7 @@
 
 import { def } from '@vue/shared';
 import {login}  from '../../../Api/client';
-//import {checkRedirect}  from '../../../Api/client';
-//import {verifyToken} from '../../../Api/client'
+
  
 export default{
 data(){

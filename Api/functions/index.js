@@ -65,18 +65,40 @@ app.get("/", (req, res) => {
 // })
 // });
 
-//LP
+//LP//bun pprecedent-------------------
+// app.get("/getAll", (req, res) => {
+//   // res.status(200);
+//   // res.send(db);
+//   const tasks = [];
+//   dbFirebase
+//     .collection('bursaMerit')
+//     .get()
+//     .then((snapshot) => {
+//       snapshot.forEach((doc) => {
+//         tasks.push({ nota: doc.nota, nume: doc.nume, ...doc.data() });
+//       });
+//       res.status(200);
+//       res.send(tasks);
+//     })
+//     .catch((err) => {
+//       console.log('Error getting documents', err);
+//     });
+// });
+
 app.get("/getAll", (req, res) => {
   // res.status(200);
   // res.send(db);
-  const tasks = [];
+  let tasks = [];
   dbFirebase
-    .collection('bursaMerit')
+    .collection('burseMerit')
     .get()
     .then((snapshot) => {
       snapshot.forEach((doc) => {
         tasks.push({ nota: doc.nota, nume: doc.nume, ...doc.data() });
+       
       });
+      console.log("Vectorul din api"+tasks);
+      //res.json(tasks);
       res.status(200);
       res.send(tasks);
     })
