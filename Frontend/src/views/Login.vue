@@ -1,4 +1,10 @@
 <template>
+  
+<div class="background">
+    <div class="shape"></div>
+    <div class="shape"></div>
+  </div>
+
   <form @submit.prevent="submitForm" class="login-form">
     <h2 class="title">Login</h2>
 
@@ -12,13 +18,12 @@
       <input type="password" v-model="campParola" />
     </div>
 
-    <div class="btn-actions">
+    
       
 
       <button class="btn" @click="loadAttr" >Login</button>
       
-      
-    </div>
+  
 
   </form>
 
@@ -119,22 +124,58 @@ methods:{
 </script>
 
 <style scoped>
-
 .title {
-  font-size: 3rem;
-  font-weight: bold;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 42px;
   text-align: center;
-  color: rgb(64, 155, 143);
+}
+.background {
+  width: 430px;
+  height: 520px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+}
+.background .shape {
+  height: 200px;
+  width: 200px;
+  position: absolute;
+  border-radius: 50%;
+}
+.shape:first-child {
+  background: linear-gradient(#1845ad, #23a2f6);
+  left: -5rem;
+  top: 25rem;
+  opacity: 0.2;
+}
+.shape:last-child {
+  background: linear-gradient(to right, #b327c5, #7d19f0);
+  right: -5rem;
+  bottom: -25rem;
+  opacity: 0.2;
 }
 .login-form {
-  margin: 60px auto;
-  padding: 20px;
-  background: rgba(201, 214, 214, 0.288);
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(13.7px);
-  -webkit-backdrop-filter: blur(13.7px);
-  border: 1px solid rgba(231, 214, 214, 0.83);
+  height: 520px;
+  width: 400px;
+  background-color: rgba(255, 255, 255, 0.13);
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+  padding: 50px 35px;
+  margin: 23rem auto;
+}
+form * {
+  font-family: "Poppins", sans-serif;
+  color: #585858;
+  letter-spacing: 0.5px;
+  outline: none;
 }
 .div-form {
   margin: 0.5rem 0;
@@ -142,50 +183,40 @@ methods:{
 }
 .login-form label {
   display: block;
-  margin-bottom: 0.5rem;
-  font-size: 1.2rem;
-  color: rgb(121, 116, 116);
+  margin-top: 30px;
+  font-size: 16px;
+  font-weight: 500;
 }
 .login-form input {
-  padding: 0.5rem 4rem;
-  margin-bottom: 0.5rem;
-  font-size: 1em;
-  color: #777;
+  display: block;
+  height: 50px;
   width: 100%;
-  background-color: rgba(128, 128, 128, 0.144);
-  border: 0.1rem solid white;
+  background-color: rgba(255, 255, 255, 0.07);
+  border-radius: 3px;
+  padding: 0 10px;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 300;
+  border: solid #4e4e4e21;
 }
-.btn-actions {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 7rem;
+::placeholder {
+  color: #e5e5e5;
 }
+
 .btn {
-  align-items: center;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: transparent 0 0 0 3px, rgba(18, 18, 18, 0.1) 0 6px 20px;
-  box-sizing: border-box;
-  color: #121212;
-  cursor: pointer;
-  display: inline-flex;
-  flex: 1 1 auto;
-  font-family: Inter, sans-serif;
-  font-size: 1.2rem;
-  font-weight: 700;
-  justify-content: center;
-  line-height: 1;
-  margin: 1.5rem 0 0 0;
-  outline: none;
-  padding: 1rem 1.2rem;
+  margin-top: 50px;
   text-align: center;
-  text-decoration: none;
-  transition: box-shadow 0.2s, -webkit-box-shadow 0.2s;
-  border: 0;
+  width: 100%;
+  background-color: #ffffff;
+  color: #080710;
+  padding: 15px 0;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .btn:hover {
-  background-color: rgb(64, 155, 143);
+  background-color: #308dcc;
 }
 </style>

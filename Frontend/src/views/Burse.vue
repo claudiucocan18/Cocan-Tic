@@ -12,33 +12,25 @@
               <span></span>
               <span></span>
             </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              Cocan Claudiu
-              <span> 10</span>
-              <span class="badge badge-primary badge-pill">
-                <router-link :to="{ path: `/editStudent/2583` }" class="btn btn-primary ml-2">
-                  Edit
-                </router-link>
-                <a href="#" class="btn btn-danger">Delete</a>
-              </span>
-            </li>
+
           </ul>
 
           <!-- ------------- -->
           <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center" v-for="cv in vector">
+            <li class="list-group-item d-flex justify-content-between align-items-center" v-for="cv in vector"
+              v-bind:key="cv.id">
               {{ cv.nume }}
-              <span> 10</span>
+              <span> {{ cv.nota }}</span>
               <span class="badge badge-primary badge-pill">
                 <router-link :to="{ path: `/editStudent/2583` }" class="btn btn-primary ml-2">
                   Edit
                 </router-link>
-                <a href="#" class="btn btn-danger">Delete</a>
+                <a href="#" class="btn btn-danger" @click="deleteStudent(cv.id)">Delete</a>
               </span>
             </li>
           </ul>
 
-          <ul class="list-group">
+          <!-- <ul class="list-group">
             <li class="list-group-item d-flex justify-content-between align-items-center" v-for="brs in burse">
               {{}}
               <span> 10</span>
@@ -49,9 +41,9 @@
                 <a href="#" class="btn btn-danger">Delete</a>
               </span>
             </li>
-          </ul>
+          </ul> -->
 
-          <!-- <ul v-for="cv in fbBurseMerit" :key="cv.id">
+          <!------- <ul v-for="cv in fbBurseMerit" :key="cv.id">
             <li>
               {{ cv.done }}
 
@@ -121,16 +113,26 @@ export default {
     },
 
     async loadVector() {
-       this.vector = await this.fetchData();
+      this.vector = await this.fetchData();
+      console.log("this.vector");
+      console.log(this.vector);
+
     },
 
     async fetchData() {
       const dataArray = await axios.get('http://127.0.0.1:5001/cocan-tic/us-central1/app/getAll')
-        
+
       console.log(dataArray.data);
       return dataArray.data;
-      
 
+
+    },
+    async deleteStudent(idStudent) {
+      console.log("Stergem " + idStudent);
+      await axios.delete('http://127.0.0.1:5001/cocan-tic/us-central1/app/delete/' + idStudent)
+      .then(() => {
+        this.loadVector();
+      });
     },
 
   },

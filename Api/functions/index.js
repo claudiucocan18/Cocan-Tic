@@ -13,7 +13,6 @@ var serviceAccount = require("./serviceAccountKey.json");
 
 
 
-
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
@@ -94,17 +93,35 @@ app.get("/getAll", (req, res) => {
     .get()
     .then((snapshot) => {
       snapshot.forEach((doc) => {
-        tasks.push({ nota: doc.nota, nume: doc.nume, ...doc.data() });
+        tasks.push({ nota: doc.nota, nume: doc.nume,id: doc.id, ...doc.data() });
        
       });
       console.log("Vectorul din api"+tasks);
       //res.json(tasks);
       res.status(200);
       res.send(tasks);
+      
     })
     .catch((err) => {
       console.log('Error getting documents', err);
     });
+});
+
+
+app.delete("/delete/:id", (req, res) => {
+  (async () => {
+    try {
+      console.log(req.params.id);
+     const reqDoc = db.collection("burseMerit").doc(req.params.id);
+
+      await reqDoc.delete();
+
+      return res.status(200).send({ status: "Success", msg: "Data Removed" });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({ status: "Failed", msg: error });
+    }
+  })();
 });
 
 
@@ -134,14 +151,6 @@ app.get("/getAll", (req, res) => {
 //     }
 //   })();
 // });
-
-
-
-
-
-
-
-
 
 
 
@@ -232,20 +241,23 @@ app.put("/api/update/:id", (req, res) => {
     }
   })();
 });
-//Delete -> delete()
-app.delete("/api/delete/:id", (req, res) => {
-  (async () => {
-    try {
-      const reqDoc = db.collection("userDetails").doc(req.params.id);
-      await reqDoc.delete();
 
-      return res.status(200).send({ status: "Success", msg: "Data Removed" });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).send({ status: "Failed", msg: error });
-    }
-  })();
-});
+
+//exemplar bun de delete conservat
+//Delete -> delete()
+// app.delete("/api/delete/:id", (req, res) => {
+//   (async () => {
+//     try {
+//       const reqDoc = db.collection("burseMerit").doc(req.params.id);
+//       await reqDoc.delete();
+
+//       return res.status(200).send({ status: "Success", msg: "Data Removed" });
+//     } catch (error) {
+//       console.log(error);
+//       return res.status(500).send({ status: "Failed", msg: error });
+//     }
+//   })();
+// });
 
 
 //login

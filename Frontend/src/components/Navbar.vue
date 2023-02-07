@@ -1,11 +1,11 @@
 import { RouterLink, RouterView } from "vue-router";
 <template>
   <nav class="navbar">
+    <img src="../../public/logo3.png" class="logo" />
+
     <ul class="link">
-      <img src="../../public/logo3.png" class="logo" />
       <li class="link"><RouterLink to="/burse">Burse</RouterLink></li>
       <li class="link"><RouterLink to="/login">Login</RouterLink></li>
-      <li><RouterLink to="/signup">Sign Up</RouterLink></li>
     </ul>
   </nav>
 </template>
@@ -20,6 +20,7 @@ export default {};
   padding: 0rem;
   height: 4rem;
 }
+
 .navbar {
   width: 100vw;
   background: #efefef;
@@ -36,11 +37,17 @@ export default {};
 
 .link {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
+  margin-inline-end: 3rem;
+  font-size: 1.5rem;
 }
 .link a {
   color: rgb(99, 130, 196);
   font-weight: bold;
+}
+.link a:hover {
+  background-color: transparent;
+  color: #b327c5;
 }
 .title {
   margin-right: auto;
