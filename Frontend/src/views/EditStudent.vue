@@ -1,32 +1,68 @@
 <template>
-    <div>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6 offset-md-3">
-            <h2 class="title">Editeaza student</h2>
-          </div>
-          <form>
-            <div class="form-group first">
-              <label for="">Nume</label>
-              <input type="text" class="form-control mb-2" />
-            </div>
-            <div class="form-group">
-              <label for="">Prenume</label>
-              <input type="text" class="form-control mb-2" />
-            </div>
-            <div class="form-group">
-              <label for="">Nota</label>
-              <input type="text" class="form-control mb-2" />
-            </div>
-            <div class="btn-actions">
-              <button class="btn">Modifica</button>
-            </div>
-          </form>
+  <div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <h2 class="title">Editeaza student</h2>
         </div>
+        <form>
+          <div class="form-group first">
+            <label for="">Nume</label>
+            <input type="text" class="form-control mb-2" />
+          </div>
+          <div class="form-group">
+            <label for="">Prenume</label>
+            <input type="text" class="form-control mb-2" />
+          </div>
+          <div class="form-group">
+            <label for="">Nota</label>
+            <input type="text" class="form-control mb-2" />
+          </div>
+          <div class="btn-actions">
+            <button class="btn">Modifica</button>
+          </div>
+        </form>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
+
+<script>
+
+import {login}  from '../../../Api/client';
+
+ 
+export default{
+data(){
+  return{
+    tok:"",
+    campEmail:"",
+    campParola:"",
+  };
+},
+// created(){
+//   this.loadAttr();
+// },
+
+methods:{
+   loadAttr(){
+
+
+  },
+  
+
+
+},
+
+};
+
+
+
+
+</script>
+
+
   <style>
   .title {
     font-size: 2rem;
@@ -77,6 +113,4 @@
   }
   </style>
   
-  <script>
-  export default {};
-  </script>
+ 

@@ -11,27 +11,28 @@
               type="text"
               class="form-control mb-2"
               placeholder="Nume"
-              v-model="nume"
+              v-model="student.nume"
+              
             />
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <input
               type="text"
               class="form-control mb-2"
               placeholder="Prenume"
               v-model="prenume"
-            />
-          </div>
+            /> -->
+          <!-- </div> -->
           <div class="form-group">
             <input
               type="text"
               class="form-control mb-2"
               placeholder="Nota"
-              v-model="nota"
+              v-model="student.nota"
             />
           </div>
           <div class="btn-actions">
-            <button class="btn">Adauga</button>
+            <button class="btn" @click="createStud">Adauga</button>
           </div>
         </form>
       </div>
@@ -40,24 +41,59 @@
 </template>
 
 <script>
-import burseColRef from "../firebase";
-import { addDoc } from "firebase/firestore";
-export default {
-  data() {
-    return {
-      nume: null,
-      prenume: null,
-      nota: null,
-    };
+
+//import {login}  from '../../../Api/client';
+import axios from 'axios';
+ 
+export default{
+data(){
+  return{
+    tok:"",
+    student:{
+      nume:"",
+      nota:"",
+  }
+  };
+},
+// created(){
+//   this.loadAttr();
+// },
+
+methods:{
+   createStud(){
+      axios.post('http://127.0.0.1:5001/cocan-tic/us-central1/app/stud/create',this.student)
+      .then(()=>{})
+     
   },
-  methods: {
-    async createStudent() {
-      console.log("Creating Document");
-      const addedDoc = await addDoc(burseColRef, this.$data);
-      console.log(addedDoc);
-    },
-  },
+  
+
+
+},
+
 };
+
+
+
+
+
+// import burseColRef from "../firebase";
+// import { addDoc } from "firebase/firestore";
+// export default {
+//   data() {
+//     return {
+//       nume: null,
+//       prenume: null,
+//       nota: null,
+//     };
+//   },
+//   methods: {
+//     async createStudent() {
+//       console.log("Creating Document");
+//       const addedDoc = await addDoc(burseColRef, this.$data);
+//       console.log(addedDoc);
+//     },
+//   },
+// };
 </script>
 
 <style>

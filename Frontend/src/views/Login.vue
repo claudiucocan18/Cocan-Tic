@@ -83,42 +83,12 @@ methods:{
   },
   
 
-  // checkRedirect(){
-  //   if (localStorage.getItem("token")) {
-  //       this.tok = localStorage.getItem("token").toString();
-  //     } else {
-  //       this.tok = "";
-  //     }
-  //     if (this.tok != "") {
-  //       this.$router.push("/burse");
-  //     } else {
-  //       this.$router.push("/login");
-  //     }
-  // },
+  
 },
 
 };
 
-//import ob from 'C:/Users/Claudiu/Desktop/Cocan Tic/Api/client';
-//const exportat = require("C:/Users/Claudiu/Desktop/Cocan Tic/Api/client");
- //document.getElementById('submit1').addEventListener('click', login());
 
-// import login from 'C:/Users/Claudiu/Desktop/Cocan Tic/Api/client';
- 
-// export default {
-//   components:{ 
-//     ob
-//   },
-// }
-
-
-// export default {
-//   data() {
-//     return {
-//       ob: flog()
-//     }
-//   }
-// }
 
 
 </script>

@@ -157,14 +157,13 @@ app.delete("/delete/:id", (req, res) => {
 
 
 //Create -> post()
-app.post("/api/create", (req, res) => {
+app.post("/stud/create", (req, res) => {
   (async () => {
     try {
-      await db.collection("userDetails").doc(`/${Date.now()}`).create({
+      await db.collection("burseMerit").doc(`/${Date.now()}`).create({
         id: Date.now(),
-        name: req.body.name,
-        mobile: req.body.mobile,
-        address: req.body.address,
+        nume: req.body.nume,
+        nota: req.body.nota,
       });
       return res.status(200).send({ status: "Success", msg: "Data Saved" });
     } catch (error) {
@@ -224,7 +223,7 @@ app.get("/api/get/:id", (req, res) => {
 
 
 //Update -> put()
-app.put("/api/update/:id", (req, res) => {
+app.put("/update/:id", (req, res) => {
   (async () => {
     try {
       const reqDoc = db.collection("userDetails").doc(req.params.id);
