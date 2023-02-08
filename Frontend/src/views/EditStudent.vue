@@ -8,99 +8,69 @@
         <form>
           <div class="form-group first">
             <label for="">Nume</label>
-            <input type="text" class="form-control mb-2"  v-model="this.ob.nume" />
+            <input type="text" class="form-control mb-2" v-model="this.ob.nume" />
           </div>
-          
+
           <div class="form-group">
             <label for="">Nota</label>
             <input type="text" class="form-control mb-2" v-model="this.ob.nota" />
           </div>
           <div class="btn-actions">
-            <button class="btn">Modifica</button>
+            <button class="btn" @click="onUpdate">Modifica</button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </template>
-  
+ 
 
 <script>
 
 //import {login}  from '../../../Api/client';
- import { getDoc, doc } from '@firebase/firestore';
- import burseColRef from '../firebase';
- import axios from 'axios';
+import { getDoc, doc } from '@firebase/firestore';
+import burseColRef from '../firebase';
+import axios from 'axios';
 //import { threadId } from 'worker_threads';
 
-export default{
-data(){
-  return{
-    ob:{},
-    nota:"",
-    nume:"",
-    id:"",
-    res:"",
-  
-  };
-},
-// created(){
-//   this.loadAttr();
-// },
-created(){
-this.studId = this.$route.params.id;
+export default {
+  data() {
+    return {
+      ob: {},
+      nota: "",
+      nume: "",
+      id: "",
+      res: "",
 
-//  this.fetchData();
-//  this.asignare();
-// this.facemUpdate()
-this.onGet();
-this.verif();
-//this.facemUpdate();
-},
-methods:{
-  
-  // async fetchData() {
-  //     const date = await axios.get('http://127.0.0.1:5001/cocan-tic/us-central1/app/get/'+this.studId);
-  //     console.log("ddate");
-    
-  //      console.log(date.data.id);
-  //     //return dataArray.data;
-  //      return date.data;
+    };
+  },
+  // created(){
+  //   this.loadAttr();
+  // },
+  created() {
+    this.studId = this.$route.params.id;
 
-  //   },
-  //   async asignare(){
-  //   this.ob.id= await this.fetchData();
+    this.onGet();
+    //this.onUpdate();
+  },
 
-  //   },
+  methods: {
 
-  //   facemUpdate(){
-  //   // console.log("ob");
-  //   // console.log(this.ob);
-  //   // this.ob.nume="lslfldslf";
+    async onGet() {
 
-  //   //   const res =  axios.put('https://httpbin.org/put', this.ob);
-  //   }
-   async onGet(){
+      await axios.get('http://127.0.0.1:5001/cocan-tic/us-central1/app/get/' + this.studId)
+        .then(response => { this.ob = response.data; })
+        .catch(error => console.log(error));
+    },
 
-    await axios.get('http://127.0.0.1:5001/cocan-tic/us-central1/app/get/'+this.studId)
-     .then(response => {this.ob= response.data;})
-     .catch(error => console.log(error));
-     console.log(this.ob.nota);
-     },
+    async onUpdate() {
+      //console.log(this.ob.nota);
+      console.log(this.ob.nume);
+      await axios.put('http://127.0.0.1:5001/cocan-tic/us-central1/app/update/' + this.studId, this.ob);
 
-      verif(){
+    },
 
-       //let x = await this.ob.nume;
-      // this.nume=this.ob.nume;
-
-       
-      
-            //console.log(x);
-
-      //const res =  axios.put('http://127.0.0.1:5001/cocan-tic/us-central1/app/update/'+this.studId, this.res);
-    }
-
-},
+  }
 
 };
 
@@ -110,54 +80,57 @@ methods:{
 </script>
 
 
-  <style>
-  .title {
-    font-size: 2rem;
-    text-align: center;
-    font-weight: bold;
-    text-transform: uppercase;
-    margin-block-start: 3rem;
-  }
-  .form-group {
-    padding: 0 15rem;
-    margin: 1.2rem 1rem;
-  }
-  .first {
-    margin-block-start: 3rem;
-  }
-  .btn-actions {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 30rem;
-  }
-  .btn {
-    align-items: center;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: transparent 0 0 0 3px, rgba(18, 18, 18, 0.1) 0 6px 20px;
-    box-sizing: border-box;
-    color: #121212;
-    cursor: pointer;
-    display: inline-flex;
-    flex: 1 1 auto;
-    font-family: Inter, sans-serif;
-    font-size: 1.2rem;
-    font-weight: 700;
-    justify-content: center;
-    line-height: 1;
-    margin: 1.5rem 0 0 0;
-    outline: none;
-    padding: 1rem 1.2rem;
-    text-align: center;
-    text-decoration: none;
-    transition: box-shadow 0.2s, -webkit-box-shadow 0.2s;
-    border: 0;
-  }
-  
-  .btn:hover {
-    background-color: rgb(64, 155, 143);
-  }
-  </style>
-  
+<style>
+.title {
+  font-size: 2rem;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-block-start: 3rem;
+}
+
+.form-group {
+  padding: 0 15rem;
+  margin: 1.2rem 1rem;
+}
+
+.first {
+  margin-block-start: 3rem;
+}
+
+.btn-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 30rem;
+}
+
+.btn {
+  align-items: center;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: transparent 0 0 0 3px, rgba(18, 18, 18, 0.1) 0 6px 20px;
+  box-sizing: border-box;
+  color: #121212;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 1 1 auto;
+  font-family: Inter, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 1;
+  margin: 1.5rem 0 0 0;
+  outline: none;
+  padding: 1rem 1.2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: box-shadow 0.2s, -webkit-box-shadow 0.2s;
+  border: 0;
+}
+
+.btn:hover {
+  background-color: rgb(64, 155, 143);
+}
+</style>
  
