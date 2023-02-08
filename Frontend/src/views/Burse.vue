@@ -9,7 +9,8 @@
             <li class="list-group-item d-flex justify-content-between align-items-center">
               NUME STUDENT
               <span> NOTA</span>
-              <span>FACULTATE</span>
+              <span>Telefon</span>
+              <span>Email</span>
               <span></span>
             </li>
 

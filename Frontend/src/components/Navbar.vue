@@ -6,12 +6,35 @@ import { RouterLink, RouterView } from "vue-router";
     <ul class="link">
       <li class="link"><RouterLink to="/burse">Burse</RouterLink></li>
       <li class="link"><RouterLink to="/login">Login</RouterLink></li>
+      <li><button class="btn" @click="logout">Logout</button></li>
     </ul>
   </nav>
 </template>
 
 <script>
-export default {};
+
+
+export default {
+
+  methods:{
+    logout(){
+
+      if(localStorage.getItem('token') && localStorage.getItem('token')!== ""){
+
+
+      
+      localStorage.removeItem('token');
+      location.reload();
+      //this.$router.push('/login');
+      }
+      else{
+        console.log("Nu esti logat");
+      }
+    }
+  }
+};
+
+
 </script>
 
 <style scoped>
