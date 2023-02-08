@@ -61,10 +61,16 @@ data(){
 
 methods:{
    createStud(){
+
+    if(this.student.nume != "" && this.student.nota != ""){
+
+
       axios.post('http://127.0.0.1:5001/cocan-tic/us-central1/app/stud/create',this.student)
       .then(()=>{})
      
-  },
+  }
+    else alert("Introduceti toate datele solicitate");
+},
   
 
 

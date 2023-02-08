@@ -8,15 +8,12 @@
         <form>
           <div class="form-group first">
             <label for="">Nume</label>
-            <input type="text" class="form-control mb-2" />
+            <input type="text" class="form-control mb-2"  v-model="this.ob.nume" />
           </div>
-          <div class="form-group">
-            <label for="">Prenume</label>
-            <input type="text" class="form-control mb-2" />
-          </div>
+          
           <div class="form-group">
             <label for="">Nota</label>
-            <input type="text" class="form-control mb-2" />
+            <input type="text" class="form-control mb-2" v-model="this.ob.nota" />
           </div>
           <div class="btn-actions">
             <button class="btn">Modifica</button>
@@ -30,28 +27,78 @@
 
 <script>
 
-import {login}  from '../../../Api/client';
+//import {login}  from '../../../Api/client';
+ import { getDoc, doc } from '@firebase/firestore';
+ import burseColRef from '../firebase';
+ import axios from 'axios';
+//import { threadId } from 'worker_threads';
 
- 
 export default{
 data(){
   return{
-    tok:"",
-    campEmail:"",
-    campParola:"",
+    ob:{},
+    nota:"",
+    nume:"",
+    id:"",
+    res:"",
+  
   };
 },
 // created(){
 //   this.loadAttr();
 // },
+created(){
+this.studId = this.$route.params.id;
 
+//  this.fetchData();
+//  this.asignare();
+// this.facemUpdate()
+this.onGet();
+this.verif();
+//this.facemUpdate();
+},
 methods:{
-   loadAttr(){
-
-
-  },
   
+  // async fetchData() {
+  //     const date = await axios.get('http://127.0.0.1:5001/cocan-tic/us-central1/app/get/'+this.studId);
+  //     console.log("ddate");
+    
+  //      console.log(date.data.id);
+  //     //return dataArray.data;
+  //      return date.data;
 
+  //   },
+  //   async asignare(){
+  //   this.ob.id= await this.fetchData();
+
+  //   },
+
+  //   facemUpdate(){
+  //   // console.log("ob");
+  //   // console.log(this.ob);
+  //   // this.ob.nume="lslfldslf";
+
+  //   //   const res =  axios.put('https://httpbin.org/put', this.ob);
+  //   }
+   async onGet(){
+
+    await axios.get('http://127.0.0.1:5001/cocan-tic/us-central1/app/get/'+this.studId)
+     .then(response => {this.ob= response.data;})
+     .catch(error => console.log(error));
+     console.log(this.ob.nota);
+     },
+
+      verif(){
+
+       //let x = await this.ob.nume;
+      // this.nume=this.ob.nume;
+
+       
+      
+            //console.log(x);
+
+      //const res =  axios.put('http://127.0.0.1:5001/cocan-tic/us-central1/app/update/'+this.studId, this.res);
+    }
 
 },
 

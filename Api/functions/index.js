@@ -175,14 +175,17 @@ app.post("/stud/create", (req, res) => {
 
 //Get -> get()
 //Fetch - Single Data from firestore using specific ID
-app.get("/api/get/:id", (req, res) => {
+app.get("/get/:id", (req, res) => {
   (async () => {
     try {
-      const reqDoc = db.collection("userDetails").doc(req.params.id);
+      const reqDoc = db.collection("burseMerit").doc(req.params.id);
       let userDetail = await reqDoc.get();
       let response = userDetail.data();
+      console.log(response);
 
-      return res.status(200).send({ status: "Success", data: response });
+      //return res.status(200).send({ status: "Success", data: response });
+      
+      return res.status(200).send( response );
     } catch (error) {
       console.log(error);
       return res.status(500).send({ status: "Failed", msg: error });
@@ -226,11 +229,10 @@ app.get("/api/get/:id", (req, res) => {
 app.put("/update/:id", (req, res) => {
   (async () => {
     try {
-      const reqDoc = db.collection("userDetails").doc(req.params.id);
+      const reqDoc = db.collection("burseMerit").doc(req.params.id);
       await reqDoc.update({
-        name: req.body.name,
-        mobile: req.body.mobile,
-        address: req.body.address,
+        nume: req.body.nume,
+        nota: req.body.nota,
       });
 
       return res.status(200).send({ status: "Success", msg: "Data Saved" });

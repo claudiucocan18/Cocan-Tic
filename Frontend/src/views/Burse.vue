@@ -22,7 +22,7 @@
               {{ cv.nume }}
               <span> {{ cv.nota }}</span>
               <span class="badge badge-primary badge-pill">
-                <router-link :to="{ path: '/editstudent?' }" class="btn btn-primary ml-2" v-if="this.tok != ''">
+                <router-link :to="{ path: '/editstudent/'+cv.id}" class="btn btn-primary ml-2" v-if="this.tok != ''">
                   Edit
                 </router-link>
                 <a href="#" class="btn btn-danger" v-if="this.tok != ''" @click="deleteStudent(cv.id)" >Delete</a>
