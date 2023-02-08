@@ -31,6 +31,24 @@
               v-model="student.nota"
             />
           </div>
+
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control mb-2"
+              placeholder="Telefon"
+              v-model="student.contact.telefon"
+            />
+          </div>
+
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control mb-2"
+              placeholder="Email"
+              v-model="student.contact.email"
+            />
+          </div>
           <div class="btn-actions">
             <button class="btn" @click="createStud">Adauga</button>
           </div>
@@ -52,6 +70,12 @@ data(){
     student:{
       nume:"",
       nota:"",
+      contact:{
+        
+        telefon:"",
+        email:"",
+
+      }
   }
   };
 },

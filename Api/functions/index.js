@@ -95,6 +95,29 @@ app.get("/getAll", (req, res) => {
     .get()
     .then((snapshot) => {
       snapshot.forEach((doc) => {
+        tasks.push({ nota: doc.nota, nume: doc.nume,id: doc.id, contact: doc.contact, ...doc.data() });
+       
+      });
+      console.log("Vectorul din api"+tasks);
+      //res.json(tasks);
+      res.status(200);
+      res.send(tasks);
+      
+    })
+    .catch((err) => {
+      console.log('Error getting documents', err);
+    });
+});
+
+app.get("/getAllinitial", (req, res) => {
+  // res.status(200);
+  // res.send(db);
+  let tasks = [];
+  dbFirebase
+    .collection('burseMerit')
+    .get()
+    .then((snapshot) => {
+      snapshot.forEach((doc) => {
         tasks.push({ nota: doc.nota, nume: doc.nume,id: doc.id, ...doc.data() });
        
       });
@@ -168,6 +191,7 @@ app.post("/stud/create", (req, res) => {
         id: Date.now(),
         nume: req.body.nume,
         nota: req.body.nota,
+        contact: req.body.contact,
       });
       return res.status(200).send({ status: "Success", msg: "Data Saved" });
     } catch (error) {
@@ -237,6 +261,8 @@ app.put("/update/:id", (req, res) => {
       await reqDoc.update({
         nume: req.body.nume,
         nota: req.body.nota,
+        contact: req.body.contact,
+       
       });
 
       return res.status(200).send({ status: "Success", msg: "Data Saved" });

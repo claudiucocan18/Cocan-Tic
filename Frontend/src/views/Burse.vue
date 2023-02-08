@@ -9,7 +9,7 @@
             <li class="list-group-item d-flex justify-content-between align-items-center">
               NUME STUDENT
               <span> NOTA</span>
-              <span></span>
+              <span>FACULTATE</span>
               <span></span>
             </li>
 
@@ -21,6 +21,8 @@
               v-bind:key="cv.id">
               {{ cv.nume }}
               <span> {{ cv.nota }}</span>
+              <span v-if="cv.contact"> {{ cv.contact.telefon }}</span>
+              <span v-if="cv.contact"> {{ cv.contact.email }}</span>
               <span class="badge badge-primary badge-pill">
                 <router-link :to="{ path: '/editstudent/'+cv.id}" class="btn btn-primary ml-2" v-if="this.tok != ''">
                   Edit
@@ -141,7 +143,9 @@ export default {
           
       }
       else{
-        console.log('Nu ai drept de stergere');
+
+        this.$router.push("/login");
+        console.log('Nu ai drept de stergere. Logheaza-te');
 
     }
     },

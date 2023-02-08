@@ -15,6 +15,17 @@
             <label for="">Nota</label>
             <input type="text" class="form-control mb-2" v-model="this.ob.nota" />
           </div>
+
+          <div class="form-group">
+            <label for="">Telefon</label>
+            <input type="text" class="form-control mb-2" v-model="this.ob.contact.telefon" />
+          </div>
+
+          <div class="form-group">
+            <label for="">Email</label>
+            <input type="text" class="form-control mb-2" v-model="this.ob.contact.email" />
+          </div>
+
           <div class="btn-actions">
             <button class="btn" @click="onUpdate">Modifica</button>
           </div>
@@ -36,7 +47,12 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      ob: {},
+    ob: {
+      nume: '',
+      nota: '',
+      id: null,
+      contact: { email: '', telefon: '' }
+  },
       nota: "",
       nume: "",
       id: "",
@@ -51,7 +67,7 @@ export default {
     this.studId = this.$route.params.id;
 
     this.onGet();
-    //this.onUpdate();
+    // this.onUpdate();
   },
 
   methods: {
@@ -61,11 +77,14 @@ export default {
       await axios.get('http://127.0.0.1:5001/cocan-tic/us-central1/app/get/' + this.studId)
         .then(response => { this.ob = response.data; })
         .catch(error => console.log(error));
+        
+     // this.onUpdate();
+
     },
 
     async onUpdate() {
       //console.log(this.ob.nota);
-      console.log(this.ob.nume);
+      console.log("obiectul nostru"+this.ob);
       await axios.put('http://127.0.0.1:5001/cocan-tic/us-central1/app/update/' + this.studId, this.ob);
 
     },
