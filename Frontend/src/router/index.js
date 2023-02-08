@@ -5,6 +5,7 @@ import Login from "../views/Login.vue";
 import SignUp from "../views/SignUp.vue";
 import AddStudent from "../views/AddStudent.vue";
 import EditStudent from "../views/EditStudent.vue";
+import { getUserState } from '../firebase'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,16 +14,19 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: Home,
+      meta: { requiresAuth: false }
     },
     {
       path: "/burse",
       name: "burse",
       component: Burse,
+      meta: { requiresAuth: false }
     },
     {
       path: "/login",
       name: "login",
       component: Login,
+      meta: { requiresUnAuth: true } //unAuth
     },
     {
       path: "/signup",
@@ -33,14 +37,37 @@ const router = createRouter({
       path: "/addstudent",
       name: "add-student",
       component: AddStudent,
+      meta: { requiresAuth: true }
     },
     {
       path: "/editstudent/:id",
       name: "edit-student",
       component: EditStudent,
+      meta: { requiresAuth: true }
     },
+
+    {
+      path: "/delete/",
+      name: "delete-student",
+      meta: { requiresAuth: true }
+    },
+
+    
   ],
 });
+
+//new
+router.beforeEach(async (to, from, next) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  const requiresUnauth = to.matched.some(record => record.meta.requiresUnauth)
+
+  const isAuth = await getUserState();
+  const hasToken = localStorage.getItem("token");
+
+  if (requiresAuth && (!isAuth&&!hasToken)) next('/login')
+  else if (requiresUnauth && isAuth) next('/')
+  else next()
+})
 
 export default router;
 

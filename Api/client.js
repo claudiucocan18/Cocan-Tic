@@ -11,6 +11,7 @@ var globalRequestParameters = {
 };
 
 import axios from "axios";
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 
 
 let requestOptions = {
@@ -36,10 +37,28 @@ const baseURL = 'http://127.0.0.1:5001/cocan-tic/us-central1/app/';
 
 
 function login(loginEmail, loginPassword) {
+
+  let authenticated=false;
+  let auth=getAuth();
+
+  // signInWithEmailAndPassword(auth, loginEmail, loginPassword)
+  // .then((userCredential) => {
+  //   // Signed in 
+  //   const user = userCredential.user;
+  //   console.log(user);
+
+  //   // ...
+  // })
+  // .catch((error) => {
+  //   const errorCode = error.code;
+  //   const errorMessage = error.message;
+  // });
+
   axios
     .post("http://127.0.0.1:5001/cocan-tic/us-central1/app/login", {
       emailAddress: loginEmail,
-      password: loginPassword
+      password: loginPassword,
+      authenticated: authenticated
     }).then(res => {
       if (res.data.token) {
         localStorage.setItem('token', JSON.stringify(res.data.token));

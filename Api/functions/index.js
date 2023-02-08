@@ -4,13 +4,14 @@ const admin = require("firebase-admin");
 const bcrypt= require("bcrypt")
 const jwt = require('jsonwebtoken');
 
+
+
+
+
 const serverSecret = 'secret';
 //import axios from "axios";
 
 var serviceAccount = require("./serviceAccountKey.json");
-
-
-
 
 
 admin.initializeApp({
@@ -28,6 +29,7 @@ const express = require("express");
 const cors = require("cors");
 
 const { getFirestore } = require('firebase-admin/firestore');
+//const { getUserState } = require("../../Frontend/src/firebase");
 
 const dbFirebase = getFirestore();
 
@@ -122,6 +124,8 @@ app.delete("/delete/:id", (req, res) => {
       return res.status(500).send({ status: "Failed", msg: error });
     }
   })();
+
+  
 });
 
 
@@ -274,6 +278,9 @@ app.post('/login', (req, res) => {
   
   const user = users.find((user) => user.emailAddress === loginData.emailAddress);
 
+  //signInWithEmailAndPassword(auth, email.value, password.value);
+
+
   // console.log('USRS2  '+users);
   // console.log('USRS3  '+user.password);
   // console.log('USRS4  '+user.emailAddress);
@@ -297,6 +304,7 @@ app.post('/login', (req, res) => {
         console.log('trecut de if');
         // sign a jwtWebToken using the jwt package
         // -> this token will be used 2 ways for authorization
+        
         let token = jwt.sign(
           {
             data: user.emailAddress,

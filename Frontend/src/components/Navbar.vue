@@ -16,30 +16,38 @@ export default {};
 
 <style scoped>
 .logo {
-  margin: 0 16rem 0 0;
-  padding: 0rem;
-  height: 4rem;
+  margin: 0;
+  padding: 0;
+  height: 3rem;
 }
 
 .navbar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 100vw;
   background: #efefef;
-  padding: 20px 10px;
   box-sizing: border-box;
+  align-items: center;
 }
 
 .navbar ul {
   display: flex;
-  max-width: 960px;
+  flex-direction: row;
   align-items: center;
   list-style-type: none;
+  margin-block-start: 0.5rem;
+  margin-block-end: 0;
+  margin-inline: 0;
+  padding: 0;
 }
 
 .link {
   display: flex;
-  gap: 1rem;
-  margin-inline-end: 3rem;
-  font-size: 1.5rem;
+  align-items: center;
+  gap: 0.5rem;
+
+  font-size: 1rem;
 }
 .link a {
   color: rgb(99, 130, 196);
@@ -55,5 +63,23 @@ export default {};
   letter-spacing: 1px;
   font-size: 1.2em;
   color: black;
+}
+@media screen and (min-width: 768px) {
+  .logo {
+    height: 4rem;
+  }
+  .navbar {
+    display: flex;
+    flex-direction: row;
+    padding: 20px 10px;
+
+    justify-content: space-between;
+  }
+  .link {
+    display: flex;
+    gap: 1rem;
+    margin-inline-end: 3rem;
+    font-size: 1.5rem;
+  }
 }
 </style>

@@ -25,11 +25,11 @@
                 <router-link :to="{ path: '/editstudent/'+cv.id}" class="btn btn-primary ml-2" v-if="this.tok != ''">
                   Edit
                 </router-link>
-                <a href="#" class="btn btn-danger" v-if="this.tok != ''" @click="deleteStudent(cv.id)" >Delete</a>
+                <a href="#" class="btn btn-danger"  @click="deleteStudent(cv.id)" >Delete</a>
               </span>
             </li>
           </ul>
-
+<!-- v-if="this.tok != ''" -->
           <!-- <ul class="list-group">
             <li class="list-group-item d-flex justify-content-between align-items-center" v-for="brs in burse">
               {{}}
@@ -129,11 +129,23 @@ export default {
     },
     async deleteStudent(idStudent) {
       console.log("Stergem " + idStudent);
-      await axios.delete('http://127.0.0.1:5001/cocan-tic/us-central1/app/delete/' + idStudent)
+      
+     // this.$router.push("/delete");
+      
+      if(localStorage.getItem('token')&&localStorage.getItem('token')!="") {
+
+        await axios.delete('http://127.0.0.1:5001/cocan-tic/us-central1/app/delete/' + idStudent)
       .then(() => {
         this.loadVector();
       });
+          
+      }
+      else{
+        console.log('Nu ai drept de stergere');
+
+    }
     },
+    
 
   },
 }
