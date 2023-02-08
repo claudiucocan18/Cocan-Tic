@@ -12,6 +12,11 @@ var globalRequestParameters = {
 
 import axios from "axios";
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { collection, addDoc } from "firebase/firestore"; 
+
+
+//import items from '.chanceBase/';
+//const items = require('./chanceBase');
 
 
 let requestOptions = {
@@ -168,7 +173,8 @@ function getAll() {
 
       let ob={nota,nume};
       v.push(ob);
-    
+      createStud();
+
     });
 
     console.log("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
@@ -239,14 +245,23 @@ function getAll() {
 
 //}
 
-function addStudToUI(elem) {
 
 
-}
+function createStud(){
 
-
-
-
+  // datele.forEach(el =>
+  //     axios.post('http://127.0.0.1:5001/cocan-tic/us-central1/app/stud/create',this.student)
+  // // console.log(el)
+  // )
+  
+  // addDoc(collection(db, "cities"), {
+  //   name: "Tokyo",
+  //   country: "Japan"
+  // });
+  console.log(items);
+  
+  }
+ 
 
 
 

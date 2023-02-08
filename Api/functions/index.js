@@ -6,8 +6,6 @@ const jwt = require('jsonwebtoken');
 
 
 
-
-
 const serverSecret = 'secret';
 //import axios from "axios";
 
@@ -18,6 +16,7 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
+//let users=[];
 
 var users = [{
   emailAddress:'secretariat@csie.ro',
@@ -294,20 +293,25 @@ app.put("/update/:id", (req, res) => {
 //login
 
 app.post('/login', (req, res) => {
+
+  //syncUSers();
+
   let loginData = req.body;
   console.log('vrei sa te autentifici cu ', loginData);
 
   console.log('USRS  '+loginData.emailAddress);
 
+  
+
   let response = {};
   response.success = false;
   
-  const user = users.find((user) => user.emailAddress === loginData.emailAddress);
+  const user = users.find((user) => user.emailAddress == loginData.emailAddress);
 
   //signInWithEmailAndPassword(auth, email.value, password.value);
 
 
-  // console.log('USRS2  '+users);
+  // console.log('USRS2  '+users); 
   // console.log('USRS3  '+user.password);
   // console.log('USRS4  '+user.emailAddress);
   // console.log('USRS5pass  '+loginData.password);
@@ -435,6 +439,21 @@ app.post('/login', (req, res) => {
  }
 
 
+  async function syncUSers(){
+
+ dbFirebase
+    .collection('users')
+    .get()
+    .then ((snapshot) => {
+        users.push(snapshot);
+       
+      });
+      console.log(users);
+      
+      
+    }
+   
+ 
+
 module.exports.app = functions.https.onRequest(app);
-//module.exports.verificareToken = verificareToken();
-// exports.verificareToken = verificareToken();
+

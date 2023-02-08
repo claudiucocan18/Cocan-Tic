@@ -5,6 +5,7 @@ import Login from "../views/Login.vue";
 import SignUp from "../views/SignUp.vue";
 import AddStudent from "../views/AddStudent.vue";
 import EditStudent from "../views/EditStudent.vue";
+import ChanceInterface from "../views/ChanceInterface.vue";
 import { getUserState } from '../firebase'
 
 const router = createRouter({
@@ -50,6 +51,12 @@ const router = createRouter({
       path: "/delete/",
       name: "delete-student",
       meta: { requiresAuth: true }
+    },
+
+    {
+      path: "/chance/",
+      name: "chance-interf",
+      component: ChanceInterface,
     },
 
     
