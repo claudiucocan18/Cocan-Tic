@@ -18,12 +18,7 @@
       <input type="password" v-model="campParola" />
     </div>
 
-    
-      
-
       <button class="btn" @click="loadAttr" >Login</button>
-      
-  
 
   </form>
 
@@ -31,9 +26,6 @@
 
 <script type="module">
 
-//function dct(){};
-
-//var login = require('C:/Users/Claudiu/Desktop/Cocan Tic/Api/client');
 
 import { def } from '@vue/shared';
 import {login}  from '../../../Api/client';
@@ -45,6 +37,7 @@ data(){
     tok:"",
     campEmail:"",
     campParola:"",
+    //authenticated:false,
   };
 },
 // created(){
@@ -52,19 +45,15 @@ data(){
 // },
 
 methods:{
-    loadAttr(){
+    async loadAttr(){
   
-     login(this.campEmail, this.campParola);
-
+     await login(this.campEmail, this.campParola);
      
-
      if (localStorage.getItem("token")) {
               this.tok = localStorage.getItem("token").toString();
             } else {
               this.tok = "";
             }
-
-            
 
             console.log("e rau rau"+this.tok);
           
@@ -72,6 +61,7 @@ methods:{
       if (this.tok && this.tok != "") {
         this.$router.push("/burse");
       } else {
+        alert("Credentiale invalide");
         console.log("Autentificare nereusita!");
         this.$router.push("/login");
       }

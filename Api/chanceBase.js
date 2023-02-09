@@ -28,10 +28,10 @@ const genereaza = () =>{
 
 const datele = Array.from({length:10},genereaza);
 
- function createStud(){
+function createStud(){
 
 datele.forEach(el =>
-    axios.post('http://127.0.0.1:5001/cocan-tic/us-central1/app/stud/create',el)
+     axios.post('http://127.0.0.1:5001/cocan-tic/us-central1/app/stud/createForChance',el)
 // console.log(el)
 )
  }

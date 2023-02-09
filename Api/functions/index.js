@@ -200,6 +200,24 @@ app.post("/stud/create", (req, res) => {
   })();
 });
 
+
+app.post("/stud/createForChance", (req, res) => {
+  (async () => {
+    try {
+      await db.collection("burseMerit").doc(`/${Date.now()}`).create({
+        nume: req.body.nume,
+        nota: req.body.nota,
+        contact: req.body.contact,
+      });
+      return res.status(200).send({ status: "Success", msg: "Data Saved" });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({ status: "Failed", msg: error });
+    }
+  })();
+});
+
+
 //Get -> get()
 //Fetch - Single Data from firestore using specific ID
 app.get("/get/:id", (req, res) => {
@@ -318,15 +336,6 @@ app.put("/update/:id", (req, res) => {
 
   const user = users.find((user) => user.emailAddress == loginData.emailAddress);
 
-  //signInWithEmailAndPassword(auth, email.value, password.value);
-
-
-  // console.log('USRS2  '+users); 
-  // console.log('USRS3  '+user.password);
-  // console.log('USRS4  '+user.emailAddress);
-  // console.log('USRS5pass  '+loginData.password);
-  // console.log('USRS5email  '+loginData.emailAddress);
-
   if (user == undefined) {
     response.user = false;
     console.log('utilizatorul nu exista');
@@ -335,7 +344,6 @@ app.put("/update/:id", (req, res) => {
     // throw new Error(400,"Email este gresit");
 
   } else {
-
 
 
     // bcrypt.compare(loginData.password, user.password, function (err, result) {
@@ -461,16 +469,14 @@ function verificareToken(token) {
         usr.push({ emailAddress: doc.data().emailAddress, password: doc.data().password })});
 
       })
-      // console.log("users");
-      // console.log(users);
+      
       return usr;
 
     };
 
     async function loadVector() {
       let us = await syncUSers();
-      // console.log("this.vector");
-      // console.log(this.vector);
+      
       return us;
 
     }

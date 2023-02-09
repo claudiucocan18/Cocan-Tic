@@ -15,10 +15,6 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { collection, addDoc } from "firebase/firestore"; 
 
 
-//import items from '.chanceBase/';
-//const items = require('./chanceBase');
-
-
 let requestOptions = {
   method: 'GET',
   mode: 'cors',
@@ -31,45 +27,30 @@ let requestOptions = {
   referrerPolicy: 'no-referrer',
 };
 
-//import { RouterLink, RouterView } from "vue-router";
-// const jwt = require('jsonwebtoken');
+
 
 const baseURL = 'http://127.0.0.1:5001/cocan-tic/us-central1/app/';
 
-// /http://localhost:5001/
-// const ob = {
-//   flog :
 
+async function login(loginEmail, loginPassword) {
 
-function login(loginEmail, loginPassword) {
-
-  let authenticated=false;
+ // let authenticated=false;
   let auth=getAuth();
 
-  // signInWithEmailAndPassword(auth, loginEmail, loginPassword)
-  // .then((userCredential) => {
-  //   // Signed in 
-  //   const user = userCredential.user;
-  //   console.log(user);
-
-  //   // ...
-  // })
-  // .catch((error) => {
-  //   const errorCode = error.code;
-  //   const errorMessage = error.message;
-  // });
-
-  axios
+  await axios
     .post("http://127.0.0.1:5001/cocan-tic/us-central1/app/login", {
       emailAddress: loginEmail,
       password: loginPassword,
-      authenticated: authenticated
+      //authenticated: authenticated
     }).then(res => {
       if (res.data.token) {
+
+        
         localStorage.setItem('token', JSON.stringify(res.data.token));
         console.log("Mister " + res.data);
         console.log("TOKEN after api: " + JSON.stringify(res.data.token).toString());//+JSON.stringify(res.data.token)
-        //this.$router.push("/burse");
+        //authenticated=true;
+
       }
 
       else //alert('Hello, World!');
@@ -81,7 +62,8 @@ function login(loginEmail, loginPassword) {
       console.error(error);
 
     });
-
+    //return authenticated;
+ 
 }
 
 
@@ -146,12 +128,7 @@ function getAll() {
 
   axios.get("http://127.0.0.1:5001/cocan-tic/us-central1/app/getAll")
   .then(response => {
-  //   const dataArray = response.data;
-  //   let v = dataArray.map(item => {
-  //     return {
-  //       nota: item["nota"],
-  //       nume: item["nume"]
-  // }})
+
 
     console.log('Ala simplu rau ');
     console.log(response.data);
