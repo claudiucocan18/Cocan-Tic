@@ -52,9 +52,11 @@ data(){
 // },
 
 methods:{
-   loadAttr(){
+    loadAttr(){
   
      login(this.campEmail, this.campParola);
+
+     
 
      if (localStorage.getItem("token")) {
               this.tok = localStorage.getItem("token").toString();
@@ -65,6 +67,7 @@ methods:{
             
 
             console.log("e rau rau"+this.tok);
+          
             
       if (this.tok && this.tok != "") {
         this.$router.push("/burse");

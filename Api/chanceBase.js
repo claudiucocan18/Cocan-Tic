@@ -42,6 +42,7 @@ datele.forEach(el =>
 
 // }
  createStud();
+ console.log("S-a incarcat!");
 
 //createStud();
 // export default datele;

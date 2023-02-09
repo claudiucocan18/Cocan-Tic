@@ -1,7 +1,7 @@
 const functions = require("firebase-functions");
 
 const admin = require("firebase-admin");
-const bcrypt= require("bcrypt")
+const bcrypt = require("bcrypt")
 const jwt = require('jsonwebtoken');
 
 
@@ -16,13 +16,13 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
-//let users=[];
+let users = [];
 
-var users = [{
-  emailAddress:'secretariat@csie.ro',
-  password:'parola',
-  token:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoic2VjcmV0YXJpYXRAY3NpZS5ybyIsImlhdCI6MTY3NTY3MTUwMCwiZXhwIjoxNjc1Njc1MTAwfQ.iJ6do0oRULZxNlkjR0aPV40WMc1U4NDRJzUOOUoW9tg',
-}];
+// var users = [{
+//   emailAddress:'secretariat@csie.ro',
+//   password:'parola',
+//   //token:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoic2VjcmV0YXJpYXRAY3NpZS5ybyIsImlhdCI6MTY3NTY3MTUwMCwiZXhwIjoxNjc1Njc1MTAwfQ.iJ6do0oRULZxNlkjR0aPV40WMc1U4NDRJzUOOUoW9tg',
+// }];
 
 const express = require("express");
 const cors = require("cors");
@@ -94,14 +94,14 @@ app.get("/getAll", (req, res) => {
     .get()
     .then((snapshot) => {
       snapshot.forEach((doc) => {
-        tasks.push({ nota: doc.nota, nume: doc.nume,id: doc.id, contact: doc.contact, ...doc.data() });
-       
+        tasks.push({ nota: doc.nota, nume: doc.nume, id: doc.id, contact: doc.contact, ...doc.data() });
+
       });
-      console.log("Vectorul din api"+tasks);
+      console.log("Vectorul din api" + tasks);
       //res.json(tasks);
       res.status(200);
       res.send(tasks);
-      
+
     })
     .catch((err) => {
       console.log('Error getting documents', err);
@@ -117,14 +117,14 @@ app.get("/getAllinitial", (req, res) => {
     .get()
     .then((snapshot) => {
       snapshot.forEach((doc) => {
-        tasks.push({ nota: doc.nota, nume: doc.nume,id: doc.id, ...doc.data() });
-       
+        tasks.push({ nota: doc.nota, nume: doc.nume, id: doc.id, ...doc.data() });
+
       });
-      console.log("Vectorul din api"+tasks);
+      console.log("Vectorul din api" + tasks);
       //res.json(tasks);
       res.status(200);
       res.send(tasks);
-      
+
     })
     .catch((err) => {
       console.log('Error getting documents', err);
@@ -136,7 +136,7 @@ app.delete("/delete/:id", (req, res) => {
   (async () => {
     try {
       console.log(req.params.id);
-     const reqDoc = db.collection("burseMerit").doc(req.params.id);
+      const reqDoc = db.collection("burseMerit").doc(req.params.id);
 
       await reqDoc.delete();
 
@@ -147,7 +147,7 @@ app.delete("/delete/:id", (req, res) => {
     }
   })();
 
-  
+
 });
 
 
@@ -170,7 +170,7 @@ app.delete("/delete/:id", (req, res) => {
 //       });
 
 //       return res.status(200).send({ status: "Success", data: response });
-    
+
 //     } catch (error) {
 //       console.log(error);
 //       return res.status(500).send({ status: "Failed", msg: error });
@@ -211,8 +211,8 @@ app.get("/get/:id", (req, res) => {
       console.log(response);
 
       //return res.status(200).send({ status: "Success", data: response });
-      
-      return res.status(200).send( response );
+
+      return res.status(200).send(response);
     } catch (error) {
       console.log(error);
       return res.status(500).send({ status: "Failed", msg: error });
@@ -241,7 +241,7 @@ app.get("/get/:id", (req, res) => {
 //       });
 
 //       return res.status(200).send({ status: "Success", data: response });
-    
+
 //     } catch (error) {
 //       console.log(error);
 //       return res.status(500).send({ status: "Failed", msg: error });
@@ -261,7 +261,7 @@ app.put("/update/:id", (req, res) => {
         nume: req.body.nume,
         nota: req.body.nota,
         contact: req.body.contact,
-       
+
       });
 
       return res.status(200).send({ status: "Success", msg: "Data Saved" });
@@ -292,20 +292,30 @@ app.put("/update/:id", (req, res) => {
 
 //login
 
-app.post('/login', (req, res) => {
+ app.post('/login', async(req, res) => {
 
   //syncUSers();
+
+  users = await loadVector();
+  
+ // users = u;
+  console.log("users de sus");
+      console.log(users);
+
+
+
+
 
   let loginData = req.body;
   console.log('vrei sa te autentifici cu ', loginData);
 
-  console.log('USRS  '+loginData.emailAddress);
+  console.log('USRS  ' + loginData.emailAddress);
 
-  
+
 
   let response = {};
   response.success = false;
-  
+
   const user = users.find((user) => user.emailAddress == loginData.emailAddress);
 
   //signInWithEmailAndPassword(auth, email.value, password.value);
@@ -322,71 +332,71 @@ app.post('/login', (req, res) => {
     console.log('utilizatorul nu exista');
     // res.status=400;
     // res.send();
-   // throw new Error(400,"Email este gresit");
-   
+    // throw new Error(400,"Email este gresit");
+
   } else {
 
-   
+
 
     // bcrypt.compare(loginData.password, user.password, function (err, result) {
     //   if (result) {
-      if(loginData.password==user.password){
-        console.log('trecut de if');
-        // sign a jwtWebToken using the jwt package
-        // -> this token will be used 2 ways for authorization
-        
-        let token = jwt.sign(
-          {
-            data: user.emailAddress,
-          },
-          serverSecret,
-          { expiresIn: '1h' }
-        );
+    if (loginData.password == user.password) {
+      console.log('trecut de if');
+      // sign a jwtWebToken using the jwt package
+      // -> this token will be used 2 ways for authorization
 
-        console.log('Tokenul tau este: ', token);
-    
-        //localStorage.setItem("token", token);
-        // res.status=200;
-        res.send({ token });
-      } else {
-        console.log('parola este gresita');
-        // res.status=400;
-        // res.send();
-       // throw new Error(400,"Parola este gresita");
-        
-      }
+      let token = jwt.sign(
+        {
+          data: user.emailAddress,
+        },
+        serverSecret,
+        { expiresIn: '1h' }
+      );
+
+      console.log('Tokenul tau este: ', token);
+
+      //localStorage.setItem("token", token);
+      // res.status=200;
+      res.send({ token });
+    } else {
+      console.log('parola este gresita');
+      // res.status=400;
+      // res.send();
+      // throw new Error(400,"Parola este gresita");
+
     }
+  }
 
 });
-  // res.send(response)
+// res.send(response)
 
 
-  // let token = req.headers['authorization'];
+// let token = req.headers['authorization'];
 
-  // if (token) {
-  //   jwt.verify(token, serverSecret, (err, decode));
+// if (token) {
+//   jwt.verify(token, serverSecret, (err, decode));
 
-  //   if (err) {
-  //     if (err.expiredAt) {
-  //       console.log('Tokenul tau a expirat!');
-  //       res.status(403);
-  //       res.send('expiredToken');
-  //     } else {
-  //       console.log('Tokenul tau nu e bun');
-  //       res.status(403);
-  //       res.send('brokenToken');
-  //     }
-  //   } else {
-  //     console.req.email = decoded;
-  //     next();
-  //   }
+//   if (err) {
+//     if (err.expiredAt) {
+//       console.log('Tokenul tau a expirat!');
+//       res.status(403);
+//       res.send('expiredToken');
+//     } else {
+//       console.log('Tokenul tau nu e bun');
+//       res.status(403);
+//       res.send('brokenToken');
+//     }
+//   } else {
+//     console.req.email = decoded;
+//     next();
+//   }
 
-  //   next();
-  // } else {
-  //   res.status(401);
-  // }
+//   next();
+// } else {
+//   res.status(401);
+// }
 
-  // next();
+// next();
 //}
 
 // app.post('/verificare', (req, res) => {
@@ -400,60 +410,83 @@ app.post('/login', (req, res) => {
 
 //       if(verificare){
 //         console.log('trecut de if');
-       
+
 
 //         res.send(verificare);
 //       } else {
 //         console.log('parola este gresita');
 //       }
 //     }
-  
+
 // );
 
 //node js exports https://stackify.com/node-js-module-exports/
 
- function verificareToken(token) {
+function verificareToken(token) {
   // let token = localStorage.getItem('token');
-   console.log('Token din verif'+ token);
- 
-   if (token) {
-     jwt.verify(token, 'secret', (err, decode));
- 
-     if (err) {
-       if (err.expiredAt) {
-         console.log('Tokenul tau a expirat!');
-         return false;
-       } else {
-         console.log('Tokenul tau nu e bun');
-         return false;
-       }
-     } else {
-       console.req.email = decoded;
-       return true;
-     }
- 
-   } else {
-     return false;
-   }
- 
- }
+  console.log('Token din verif' + token);
+
+  if (token) {
+    jwt.verify(token, 'secret', (err, decode));
+
+    if (err) {
+      if (err.expiredAt) {
+        console.log('Tokenul tau a expirat!');
+        return false;
+      } else {
+        console.log('Tokenul tau nu e bun');
+        return false;
+      }
+    } else {
+      console.req.email = decoded;
+      return true;
+    }
+
+  } else {
+    return false;
+  }
+
+}
 
 
-  async function syncUSers(){
-
- dbFirebase
+ async function syncUSers() {
+  let usr=[];
+   await dbFirebase
     .collection('users')
     .get()
-    .then ((snapshot) => {
-        users.push(snapshot);
-       
-      });
-      console.log(users);
-      
-      
+    .then((snapshot) => {
+      snapshot.forEach((doc) => {
+        // console.log("doc.data()");
+        // console.log(doc.data());
+        usr.push({ emailAddress: doc.data().emailAddress, password: doc.data().password })});
+
+      })
+      // console.log("users");
+      // console.log(users);
+      return usr;
+
+    };
+
+    async function loadVector() {
+      let us = await syncUSers();
+      // console.log("this.vector");
+      // console.log(this.vector);
+      return us;
+
     }
-   
- 
+
+    
+
+  //console.log(users);
+
+
 
 module.exports.app = functions.https.onRequest(app);
 
+// .collection('burseMerit')
+//     .get()
+//     .then((snapshot) => {
+//       snapshot.forEach((doc) => {
+//         tasks.push({ nota: doc.nota, nume: doc.nume,id: doc.id, contact: doc.contact, ...doc.data() });
+
+//,id: doc.id, contact: doc.contact, ...doc.data()
